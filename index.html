@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <Title> RMX Google Maps Angular </Title>
     <style type="text/css">
         html {
             height: 100%
@@ -19,27 +20,10 @@
             padding: 40px
         }
     </style>
- 
+
     <script type="text/javascript">
 
 
-        //Use JQuery to get the external data file
-        var vehicleObj = (function () {
-            var json = null;
-            $.ajax({
-                'async': false,
-                'global': false,
-                'url': 'vehicleLocations.json', //local file
-                //'url': 'http://dlpx01.aws.revivermx.com:8080/w1/rest/map/getlocations?pl=6YIT558&fr=2014-01-18+04%3A17&to=2014-01-31+21%3A00',
-                //'url': 'http://dlpx01.aws.revivermx.com:8080/w1/rest/map/getlocations?pl=-1&fr=2014-01-18+04%3A17&to=2014-01-31+21%3A00',
-                //'url': 'http://dlpx01.aws.revivermx.com:8080/w1/rest/map/getlocations?pl=5NQE755&fr=2014-01-1+04%3A17&to=2014-01-31+21%3A00',
-                'dataType': "json",
-                'success': function (data) {
-                    json = data;
-                }
-            });
-            return json;
-        })();
 
 
         function initialize() {
@@ -56,7 +40,7 @@
 
             heatmap.setMap(map);
         }
-        createVehicle
+        //createVehicle
 
         //Parse the Data Model
         function parseVehicleData(){
@@ -115,6 +99,9 @@
     <script src="http://code.angularjs.org/1.2.10/angular.min.js"></script>
 </head>
 <body>
+<div ng-app="myMaps">
 <div id="map-canvas"/>
+    <div ng-
+</div>
 </body>
 </html>
