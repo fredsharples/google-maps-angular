@@ -1,33 +1,23 @@
 /**
  * Created by fred on 1/25/14.
  */
-var myMap = angular.module('myMap',[]);
+function initialize() {
+    var mapOptions = {
+        zoom: 8,
+        center: new google.maps.LatLng(-34.397, 150.644)
+    };
 
-myApp.factory('Data',function (){
-    return {message:"I'm data from a service"};
-})
-
-//Use JQuery to get the external data file
-var vehicleObj = (function () {
-    var json = null;
-    $.ajax({
-        'async': false,
-        'global': false,
-        'url': 'vehicleLocations.json', //local file
-        //'url': 'http://dlpx01.aws.revivermx.com:8080/w1/rest/map/getlocations?pl=6YIT558&fr=2014-01-18+04%3A17&to=2014-01-31+21%3A00',
-        //'url': 'http://dlpx01.aws.revivermx.com:8080/w1/rest/map/getlocations?pl=-1&fr=2014-01-18+04%3A17&to=2014-01-31+21%3A00',
-        //'url': 'http://dlpx01.aws.revivermx.com:8080/w1/rest/map/getlocations?pl=5NQE755&fr=2014-01-1+04%3A17&to=2014-01-31+21%3A00',
-        'dataType': "json",
-        'success': function (data) {
-            json = data;
-        }
-    });
-    return json;
-})();
-
-function FirstCtrl($scope, Data){
-    $scope.data = Data;
+    var map = new google.maps.Map(document.getElementById('map-canvas'),
+        mapOptions);
 }
-function SecondCtrl($scope, Data){
-    $scope.data = Data;
+
+function loadScript() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Yf0BGs7qvoEoBXQ1BejWXPpg97J9i6A&sensor=false&libraries=visualization&callback=initialize";
+    //script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' + 'callback=initialize';
+
+    document.body.appendChild(script);
 }
+
+window.onload = loadScript;
