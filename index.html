@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <style type="text/css">
+        html {
+            height: 100%
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0
+        }
+
+        #map-canvas {
+            height: 70%;
+            margin: 40px;
+            padding: 40px
+        }
+    </style>
+ 
+    <script type="text/javascript">
+
+
+        //Use JQuery to get the external data file
+        var vehicleObj = (function () {
+            var json = null;
+            $.ajax({
+                'async': false,
+                'global': false,
+                'url': 'vehicleLocations.json', //local file
+                //'url': 'http://dlpx01.aws.revivermx.com:8080/w1/rest/map/getlocations?pl=6YIT558&fr=2014-01-18+04%3A17&to=2014-01-31+21%3A00',
+                //'url': 'http://dlpx01.aws.revivermx.com:8080/w1/rest/map/getlocations?pl=-1&fr=2014-01-18+04%3A17&to=2014-01-31+21%3A00',
+                //'url': 'http://dlpx01.aws.revivermx.com:8080/w1/rest/map/getlocations?pl=5NQE755&fr=2014-01-1+04%3A17&to=2014-01-31+21%3A00',
+                'dataType': "json",
+                'success': function (data) {
+                    json = data;
+                }
+            });
+            return json;
+        })();
+
+
+        function initialize() {
+            var mapOptions = {
+                center: new google.maps.LatLng(vehicleObj[500].lat, vehicleObj[500].lon), //hack - 500 is halfway through the dataset
+                zoom: 18 //need to find a way to zoom to the points we want
+            };
+
+            map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
+
+            heatmap = new google.maps.visualization.HeatmapLayer({
+                data: vehicleCoordinates
+            });
+
+            heatmap.setMap(map);
+        }
+        createVehicle
+
+        //Parse the Data Model
+        function parseVehicleData(){
+        var vehicleCoordinates = [];
+            for (id in vehicleObj) {
+            var myLatLng = new google.maps.LatLng(vehicleObj[id].lat, vehicleObj[id].lon);
+            vehicleCoordinates.push(myLatLng);
+            //var myTitle = vehicleObj[id].spd.toString();
+            new google.maps.LatLng(vehicleObj[id].lat, vehicleObj[id].lon);
+
+            //Set up all the markers
+            //markers - comment out to see lines instead
+            var marker = new google.maps.Marker({
+             position: myLatLng,
+             map: map
+             });
+             // process multiple info windows
+             (function(marker, id) {
+             // add click event
+                 google.maps.event.addListener(marker, 'click', function() {
+                     infowindow = new google.maps.InfoWindow({
+                         content: 'speed: '+vehicleObj[id].spd.toString()
+                     });
+                     infowindow.open(map, marker);
+                 });
+             })(marker, id);
+        }
+        }
+
+
+
+
+
+
+
+            //DISPLAY LINES//
+            /*
+             var flightPath = new google.maps.Polyline({
+             path: vehicleCoordinates,
+             geodesic: true,
+             strokeColor: '#01A9DB',
+             strokeOpacity: 1.0,
+             strokeWeight: 3
+             });
+             */
+
+            //DISPLAY HEAT MAP//
+
+            //flightPath.setMap(map);
+
+        google.maps.event.addDomListener(window, 'load', initialize); //Keep this at the bottom of the script.
+
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9Yf0BGs7qvoEoBXQ1BejWXPpg97J9i6A&amp;sensor=false&amp;libraries=visualization"></script>
+    <script src="http://code.angularjs.org/1.2.10/angular.min.js"></script>
+</head>
+<body>
+<div id="map-canvas"/>
+</body>
+</html>
